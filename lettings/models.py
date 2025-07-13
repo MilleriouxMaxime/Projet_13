@@ -14,6 +14,10 @@ class Address(models.Model):
         max_length=3, validators=[MinLengthValidator(3)]
     )
 
+    class Meta:
+        verbose_name = "adresse"
+        verbose_name_plural = "adresses"
+
     def __str__(self):
         return f"{self.number} {self.street}"
 
