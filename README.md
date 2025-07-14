@@ -75,3 +75,40 @@ Utilisation de PowerShell, comme ci-dessus sauf :
 
 - Pour activer l'environnement virtuel, `.\venv\Scripts\Activate.ps1` 
 - Remplacer `which <my-command>` par `(Get-Command <my-command>).Path`
+
+## Error Monitoring and Logging
+
+This project uses [Sentry](https://sentry.io/) for error monitoring and logging. Sentry is integrated via the `sentry-sdk` package and is configured in `oc_lettings_site/settings.py`.
+
+### Sentry Setup
+
+1. **Install dependencies:**
+   Ensure `sentry-sdk` is installed (see `requirements.txt`).
+
+2. **Set the Sentry DSN:**
+   - Do **not** hardcode the DSN in the codebase.
+   - Set the environment variable `SENTRY_DSN` with your Sentry project DSN:
+     ```sh
+     export SENTRY_DSN="https://<your-key>@sentry.io/<your-project>"
+     ```
+   - On Windows (cmd):
+     ```cmd
+     set SENTRY_DSN=https://<your-key>@sentry.io/<your-project>
+     ```
+
+3. **Deploy:**
+   - When the app starts, Sentry will be initialized if the `SENTRY_DSN` environment variable is set.
+
+### Logging
+
+- Logging is configured in `settings.py` to output logs to the console.
+- Logs are inserted in critical views and error handling blocks.
+- You can adjust the logging level and handlers in the `LOGGING` configuration in `settings.py`.
+
+### Security
+- **Never commit your Sentry DSN or any sensitive credentials to the codebase.**
+- Always use environment variables for secrets and sensitive configuration.
+
+---
+
+For more details, see the Sentry documentation: https://docs.sentry.io/platforms/python/guides/django/
