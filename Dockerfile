@@ -18,11 +18,11 @@ COPY . .
 # Expose port
 EXPOSE 8000
 
-# Collect static files (optional, uncomment if you want to collect at build time)
-# RUN python manage.py collectstatic --noinput
-
 # Set environment variables for Django
 ENV DJANGO_SETTINGS_MODULE=oc_lettings_site.settings
+
+# Collect static files
+RUN python manage.py collectstatic --noinput
 
 # Start server
 CMD ["gunicorn", "oc_lettings_site.wsgi:application", "--bind", "0.0.0.0:8000"] 
