@@ -53,14 +53,17 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/oc-lettings-site:${{ github.sha }} .
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/oc-lettings-site:${{ github.sha }} -t ${{ secrets.DOCKERHUB_USERNAME }}/oc-lettings-site:latest .
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/oc-lettings-site:${{ github.sha }}
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/oc-lettings-site:latest
 
   deploy:
     needs: build-and-push
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy to cloud host (placeholder)
+      - name: Call Render Deploy Hook
         run: |
-          echo "Replace this step with your actual deployment command/API call." 
+          curl -X POST "$RENDER_DEPLOY_HOOK"
+        env:
+          RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }} 
