@@ -112,3 +112,32 @@ This project uses [Sentry](https://sentry.io/) for error monitoring and logging.
 ---
 
 For more details, see the Sentry documentation: https://docs.sentry.io/platforms/python/guides/django/
+
+## Déploiement
+
+### Fonctionnement général
+
+- Le pipeline CI/CD utilise GitHub Actions pour automatiser les tests, la construction de l'image Docker, le push sur Docker Hub, et le déploiement sur l'hébergeur cloud.
+- Seules les modifications sur la branche `master` déclenchent la conteneurisation et le déploiement.
+- Les autres branches déclenchent uniquement les tests et le linting.
+
+### Configuration requise
+
+- Secrets GitHub pour Docker Hub (`DOCKERHUB_USERNAME`, `DOCKERHUB_TOKEN`).
+- Secrets pour l'hébergeur cloud (ex: clé API Render, AWS, etc.).
+- Un compte Docker Hub et un registre de conteneurs.
+- Un compte sur l'hébergeur cloud choisi.
+
+### Étapes de déploiement
+
+1. **Configurer les secrets GitHub** dans les paramètres du repo.
+2. **Pousser sur la branche `master`** pour déclencher le pipeline complet.
+3. **L'image Docker est construite et poussée sur Docker Hub** avec le hash du commit.
+4. **Le déploiement est déclenché automatiquement** sur l'hébergeur cloud.
+5. **Pour lancer le site localement avec Docker :**
+   ```sh
+   docker pull <votre-utilisateur-docker>/oc-lettings-site:<hash-du-commit>
+   docker run -e DJANGO_SECRET_KEY=... -e SENTRY_DSN=... -p 8000:8000 <votre-utilisateur-docker>/oc-lettings-site:<hash-du-commit>
+   ```
+
+---
