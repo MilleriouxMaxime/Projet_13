@@ -128,7 +128,11 @@ STATICFILES_DIRS = [
 ]
 
 # Whitenoise configuration for static files
-STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+    }
+}
 
 # Sentry configuration
 SENTRY_DSN = os.environ.get("SENTRY_DSN")
