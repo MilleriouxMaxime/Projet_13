@@ -1,7 +1,7 @@
-django==5.0
+django==5.2
 flake8==3.7.0
 pytest-django==4.11.1
 pytest-cov==6.2.1
-sentry-sdk
-gunicorn
-whitenoise
+sentry-sdk==2.33.0
+gunicorn==23.0.0
+whitenoise==6.9.0
